@@ -1,4 +1,30 @@
 {
-  "users": [],
-  "resources": []
+  "users": [
+    {
+      "name": "Kartik",
+      "email": "tes@d.s",
+      "password": "111111",
+      "confirmPassword": "111111",
+      "id": 2
+    },
+    {
+      "name": "test",
+      "email": "test@gmail.com",
+      "password": "111111",
+      "confirmPassword": "111111",
+      "id": 3
+    }
+  ],
+  "resources": [
+    {
+      "name": "Kartik",
+      "email": "kartikmahajan5688@gmail.com",
+      "designation": "Partner",
+      "password": "111111",
+      "confirmPassword": "111111",
+      "billable": "2",
+      "nonBillable": "5",
+      "id": 1
+    }
+  ]
 }

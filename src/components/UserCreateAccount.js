@@ -28,53 +28,40 @@ const UserCreateAccount = () => {
     }));
   };
 
-  //Form validations
+  // Form validations
   const validateForm = () => {
-    let errors = {};
-    let isValid = true;
-
-    if (!formData.name.trim()) {
-      errors.name = 'Name is required';
-      isValid = false;
+    const errors = {};
+    // Validate username
+    if (formData.name.trim() === '') {
+      errors.name = 'Username is required';
     }
-    else if (formData.name.length < 3) {
-      errors.name = 'Name must be at least 3 characters'
-      isValid = false;
-    }
-
-    if (!formData.email.trim()) {
+    // Validate email
+    if (formData.email.trim() === '') {
       errors.email = 'Email is required';
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Email is invalid';
-      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = 'Invalid email address';
     }
-
-    if (!formData.password) {
+    // Validate password
+    if (formData.password.trim() === '') {
       errors.password = 'Password is required';
-      isValid = false;
     } else if (formData.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
-      isValid = false;
+      errors.password = 'Password must be at least 6 characters long';
     }
-    else if (formData.password.length > 12) {
-      errors.password = 'Password must be less than 12 characters';
-      isValid = false;
-    }
-
-    if (formData.confirmPassword !== formData.password) {
+    // Validate confirm password
+    if (formData.confirmPassword.trim() === '') {
+      errors.confirmPassword = 'Confirm password is required';
+    } else if (formData.password !== formData.confirmPassword) {
       errors.confirmPassword = 'Passwords do not match';
-      isValid = false;
     }
-
-    setFormErrors(errors);
-    return isValid;
+    return errors;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const errors = validateForm();
 
-    if (validateForm()) {
+    if (Object.keys(errors).length === 0) {
+      //Form Valid submit the data
       fetch('http://localhost:3030/users', {
         method: 'POST',
         headers: {
@@ -100,10 +87,13 @@ const UserCreateAccount = () => {
         password: '',
         confirmPassword: '',
       })
-    };
-    navigate('/login')
+      navigate('/login')
+    }
+    else {
+      // Form is invalid, display errors
+      setFormErrors(errors);
+    }
   }
-
 
   return (
     <div className="form-container">
@@ -146,7 +136,6 @@ const UserCreateAccount = () => {
             required
           />
           {formErrors.password && <span className="error">{formErrors.password}</span>}
-
         </div>
         <div className="form-group">
           <input
